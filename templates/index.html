@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Assistant</title>
+    <link rel="icon" href="static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/styles/base.css">
+    <link rel="stylesheet" href="/static/styles/header.css">
+    <link rel="stylesheet" href="/static/styles/weather_cards.css">
+    <link rel="stylesheet" href="/static/styles/buttons.css">
+    <link rel="stylesheet" href="/static/styles/footer.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Python Assistant</h1>
+            <p>Ваш персональный помощник</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="header-flex">
+                <h2>Прогноз погоды на неделю:</h2>
+                <select id="city_choices" name="city_choices">
+                    {% for choice in city_choices %}
+                    <option value="{{choice}}" {% if choice == selected_city %} selected {% endif %}>
+                        {{choice}}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="weather-container" class="weather-grid">
+                <div class="container">
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Python Assistant. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Подключение JavaScript -->
+    <script src="/static/mock.js"></script>
+</body>
+</html>
