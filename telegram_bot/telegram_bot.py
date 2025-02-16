@@ -1,15 +1,20 @@
+import logging
+
 import telebot
 from config import settings, Translations, City
 from helpers.weather import Weather
 
 bot = telebot.TeleBot(settings.BOT_TOKEN)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-CITIES = ["Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Казань"]
+logger.info("Телеграм бот запущен")
 
 
 # Обработчик команды /start
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
+    logger.info("Боту дали команду /start")
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(telebot.types.KeyboardButton("Показать погоду"))
     welcome_message = (
@@ -24,6 +29,7 @@ def send_welcome(message):
 # Обработчик нажатия кнопки "Показать погоду"
 @bot.message_handler(func=lambda message: message.text == "Показать погоду")
 def choose_city(message):
+    logger.info("Бота попросили показать погоду")
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     city_buttons = [telebot.types.KeyboardButton(city) for city in City.choices_ru()]
     markup.add(*city_buttons)
@@ -50,8 +56,10 @@ def get_weather(message):
             ]
         )
         bot.send_message(message.chat.id, message_with_weather)
+        logger.info(f"Бот отправил прогноз погоды. {city}")
     except Exception:
         bot.send_message(message.chat.id, "Не удалось получить данные о погоде. Попробуйте позже.")
+        logger.error(f"Бот не смог отправить погоду: {Exception}")
     finally:
         markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
         markup.add(telebot.types.KeyboardButton("Показать погоду"))
