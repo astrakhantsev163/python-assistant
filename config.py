@@ -1,14 +1,28 @@
 import os
 from dotenv import load_dotenv
 from enum import StrEnum
+from pydantic_settings import BaseSettings
 
 load_dotenv()
 
-API_KEY = os.getenv("API_KEY")
 
-FORECATS_API_URL = f"https://api.openweathermap.org/data/2.5/forecast"
+class Settings(BaseSettings):
+    API_KEY: str = os.getenv("API_KEY")
+    FORECAST_URL: str = "http://api.openweathermap.org/data/2.5/forecast"
+    DEFAULT_CITY: str = "Saint Petersburg"
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+
+settings = Settings()
 
 
 class City(StrEnum):
     moscow = "Moscow"
     saint_petersburg = "Saint petersburg"
+
+    @classmethod
+    def choices(cls):
+        return [e.value for e in cls]

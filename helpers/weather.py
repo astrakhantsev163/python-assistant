@@ -1,14 +1,17 @@
+from functools import lru_cache
+
 import requests
 
-from config import API_KEY, FORECATS_API_URL
+from config import settings
 
 
 class Weather:
 
     def __init__(self, city: str):
         self.city = city
-        self.forecast_url = f"{FORECATS_API_URL}?q={self.city}&appid={API_KEY}&units=metric"
+        self.forecast_url = f"{settings.FORECAST_URL}?q={settings.DEFAULT_CITY}&appid={settings.API_KEY}&units=metric"
 
+    @lru_cache(maxsize=10)
     def get_weather_for_week(self) -> tuple:
         """
         Получает погоду за 7 дней
@@ -34,5 +37,7 @@ class Weather:
             temperature = weather.get("temperature", [])
             humid = weather.get("humid", [])
             return date, temperature, humid
+        if response.status_code != 200:
+            raise ValueError(f"Ошибка API: {response.status_code} - {response.text}")
         else:
             print("Ошибка при получении данных:", response.status_code)

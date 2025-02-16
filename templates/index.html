@@ -23,16 +23,25 @@
         <div class="container">
             <div class="header-flex">
                 <h2>Прогноз погоды на неделю</h2>
-                <select id="city_choices" name="city_choices">
-                    {% for choice in city_choices %}
-                    <option value="{{choice}}" {% if choice == selected_city %} selected {% endif %}>
-                        {{choice}}
-                    </option>
-                    {% endfor %}
-                </select>
+                <form action="/weather" method="get">
+                    <select id="city_choices" name="city">
+                        {% for choice in city_choices %}
+                        <option value="{{choice}}" {% if choice == selected_city %} selected {% endif %}>
+                            {{choice}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Получить погоду</button>
+                </form>
             </div>
             <div id="weather-container" class="weather-grid">
-                <div class="container">
+                {% for d, t, h in date|zip(temperature)|zip(humid) %}
+                <div class="weather-card">
+                    <h3>{{ d }}</h3>
+                    <p>Температура: {{ t }}°C</p>
+                    <p>Влажность: {{ h }}%</p>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </main>
