@@ -24,7 +24,8 @@
         <main>
             <div class="main-content">
                 <div class="header-flex">
-                    <h2>Прогноз погоды на 17 часов</h2>
+                    <h2>Прогноз погоды на 21 час</h2>
+                    <h3>Выберите город </h3>
                     <form action="/weather" method="get">
                         <select id="city_choices" name="city">
                             {% for choice in city_choices %}
@@ -33,7 +34,7 @@
                             </option>
                             {% endfor %}
                         </select>
-                        <button type="submit" class="submit-button">Получить погоду</button>
+                        <button type="submit" class="submit-button">Получить прогноз погоды</button>
                     </form>
                 </div>
                 <div id="weather-container" class="weather-grid">
@@ -41,7 +42,7 @@
                     <div class="weather-card">
                         <h3>{{ day }}</h3>
                         <p>Время: {{ time }}</p>
-                        <p>Температура: {{ temp }}°C</p>
+                        <p>Градусов: {{ temp }}°C</p>
                         <p>Погода: {{ type }}</p>
                     </div>
                     {% endfor %}

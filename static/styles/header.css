@@ -19,11 +19,15 @@ header p {
 
 /* Стили для контейнера */
 .header-flex {
-    display: flex; /* Включаем Flexbox */
-    align-items: center; /* Выравниваем элементы по центру вертикально */
-    gap: 10px; /* Добавляем пространство между h2 и select */
-    width: 100%; /* Занимаем всю доступную ширину */
-    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 /* Стили для h2 */
@@ -33,12 +37,17 @@ header p {
     flex: 1; /* Занимает всё доступное пространство */
 }
 
+.header-flex h3 {
+    font-size: 1.17rem;
+    padding: 5px;
+}
+
 /* Стили для select */
 .header-flex select {
     padding: 5px 10px; /* Добавляем внутренние отступы */
     border: 1px solid #ccc; /* Граница */
     border-radius: 4px; /* Скругление углов */
     font-size: 1rem; /* Размер шрифта */
-    min-width: 200px; /* Минимальная ширина для select */
+    min-width: 202.4px; /* Минимальная ширина для select */
     margin-right: 10px;
 }
