@@ -9,7 +9,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    text-align: center;
+    text-align: left;
     transition: transform 0.3s ease;
 }
 
@@ -20,9 +20,11 @@
 .weather-card h3 {
     font-size: 1.5rem;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .weather-card p {
     font-size: 1.2rem;
     margin: 5px 0;
+    border-bottom: 0.1px solid black;
 }
