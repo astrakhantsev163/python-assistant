@@ -5,6 +5,9 @@ header {
     text-align: center;
     padding: 20px; /* Отступы */
     flex-shrink: 0; /* Запрещаем сжимать header */
+    border-bottom-left-radius: 10px; /* Радиус для левого нижнего угла */
+    border-bottom-right-radius: 10px; /* Радиус для правого нижнего угла */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
@@ -20,7 +23,7 @@ header p {
 /* Стили для контейнера */
 .header-flex {
     display: flex;
-    align-items: center;
+
     gap: 10px;
     width: 100%;
     padding: 10px;
