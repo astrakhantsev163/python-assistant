@@ -1,9 +1,10 @@
+/* Стили для footer */
 footer {
-    position: absolute; /* Футер фиксируется внизу */
-    bottom: 0;
-    width: 100%;
-    background: #333;
+    background: #333; /* Темный фон */
     color: white;
     text-align: center;
-    padding: none;
+    padding: 10px 0; /* Отступы */
+    border-top: 1px solid #444; /* Разделительная линия */
+    margin-top: auto; /* Отступ между main и footer */
+    flex-shrink: 0; /* Запрещаем сжимать footer */
 }

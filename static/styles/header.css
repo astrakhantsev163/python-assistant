@@ -1,8 +1,10 @@
+/* Стили для header */
 header {
-    background: #4CAF50;
+    background: #4CAF50; /* Зелёный фон */
     color: white;
     text-align: center;
-    padding: 5px 0;
+    padding: 20px; /* Отступы */
+    flex-shrink: 0; /* Запрещаем сжимать header */
 }
 
 header h1 {

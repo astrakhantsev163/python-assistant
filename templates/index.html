@@ -6,10 +6,11 @@
     <title>Python Assistant</title>
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/styles/base.css">
-    <link rel="stylesheet" href="/static/styles/buttons.css">
     <link rel="stylesheet" href="/static/styles/header.css">
-    <link rel="stylesheet" href="/static/styles/weather_cards.css">
+    <link rel="stylesheet" href="/static/styles/main.css">
     <link rel="stylesheet" href="/static/styles/footer.css">
+    <link rel="stylesheet" href="/static/styles/buttons.css">
+    <link rel="stylesheet" href="/static/styles/weather_cards.css">
 </head>
 <body>
     <header>
@@ -18,38 +19,37 @@
             <p>Ваш персональный помощник</p>
         </div>
     </header>
-
-    <main>
-        <div class="container">
-            <div class="header-flex">
-                <h2>Прогноз погоды на 18 часов</h2>
-                <form action="/weather" method="get">
-                    <select id="city_choices" name="city">
-                        {% for choice in city_choices %}
-                        <option value="{{ choice }}" {% if choice == selected_city %}selected{% endif %}>
-                            {{ choice }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="submit-button">Получить погоду</button>
-                </form>
-            </div>
-            <div id="weather-container" class="weather-grid">
-                {% for d, t, h in weather_data %}
-                <div class="weather-card">
-                    <h3>{{ d }}</h3>
-                    <p>Температура: {{ t }}°C</p>
-                    <p>Влажность: {{ h }}%</p>
+        <main>
+            <div class="container">
+                <div class="header-flex">
+                    <h2>Прогноз погоды на неделю</h2>
+                    <form action="/weather" method="get">
+                        <select id="city_choices" name="city">
+                            {% for choice in city_choices %}
+                            <option value="{{ choice }}" {% if choice == selected_city %}selected{% endif %}>
+                                {{ choice }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Получить погоду</button>
+                    </form>
                 </div>
-                {% endfor %}
+                <div id="weather-container" class="weather-grid">
+                    {% for d, t, h in weather_data %}
+                    <div class="weather-card">
+                        <h3>{{ d }}</h3>
+                        <p>Температура: {{ t }}°C</p>
+                        <p>Влажность: {{ h }}%</p>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
+        </main>
+            <footer>
+                <div class="container">
+                    <p>&copy; 2025 Python Assistant. Все права защищены.</p>
+                </div>
+            </footer>
         </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Python Assistant. Все права защищены.</p>
-        </div>
-    </footer>
 </body>
 </html>
