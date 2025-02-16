@@ -8,7 +8,7 @@
 /* Стили для body */
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
+    line-height: 1;
     background-color: #f4f4f9; /* Легкий серый фон */
     color: #333; /* Цвет текста */
 }
@@ -32,35 +32,15 @@ h2 {
     padding: 10px;
 }
 
-/* Стили для контейнера */
-.header-flex {
-    display: flex; /* Включаем Flexbox */
-    align-items: center; /* Выравниваем элементы по центру вертикально */
-    gap: 20px; /* Добавляем пространство между h2 и select */
-    width: 100%; /* Занимаем всю доступную ширину */
-}
-
-/* Стили для h2 */
-.header-flex h2 {
-    margin: 0; /* Убираем стандартные отступы у h2 */
-    font-size: 1.5rem; /* Размер шрифта */
-    flex: 1; /* Занимает всё доступное пространство */
-}
-
-/* Стили для select */
-.header-flex select {
-    padding: 5px 10px; /* Добавляем внутренние отступы */
-    border: 1px solid #ccc; /* Граница */
-    border-radius: 4px; /* Скругление углов */
-    font-size: 1rem; /* Размер шрифта */
-    min-width: 200px; /* Минимальная ширина для select */
-}
-
 /* Для экранов меньше 600px */
 @media (max-width: 600px) {
     .header-flex {
         flex-direction: column; /* Размещаем элементы вертикально */
         align-items: flex-start; /* Выравниваем по левому краю */
         gap: 10px; /* Уменьшаем отступы */
+    }
+    .submit-button {
+        margin-top: 15px; /* Отступ сверху */
+        margin-bottom: 15px; /* Отступ снизу */
     }
 }

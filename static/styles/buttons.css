@@ -4,7 +4,7 @@
     color: white;
     text-align: center;
     padding: 5px 10px;
-    border: none;
+    border: 5px;
     border-radius: 4px;
     font-size: 16px;
     transition: background 0.3s ease;
