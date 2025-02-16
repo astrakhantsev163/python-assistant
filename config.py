@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from enum import StrEnum
+from enum import Enum
 from pydantic_settings import BaseSettings
 
 load_dotenv()
@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     API_KEY: str = os.getenv("API_KEY")
     FORECAST_URL: str = "http://api.openweathermap.org/data/2.5/forecast"
     DEFAULT_CITY: str = os.getenv("DEFAULT_CITY")
+    BOT_TOKEN: str = os.getenv("BOT_TOKEN")
 
     class Config:
         env_file = ".env"
@@ -21,39 +22,68 @@ class Settings(BaseSettings):
 settings = Settings()
 
 
-class City(StrEnum):
-    moscow = "Moscow"
-    saint_petersburg = "Saint petersburg"
-    novosibirsk = "Novosibirsk"
-    yekaterinburg = "Yekaterinburg"
-    kazan = "Kazan"
-    nizhny_novgorod = "Nizhny novgorod"
-    chelyabinsk = "Chelyabinsk"
-    samara = "Samara"
-    ufa = "Ufa"
-    krasnoyarsk = "Krasnoyarsk"
-    perm = "Perm"
-    voronezh = "Voronezh"
-    volgograd = "Volgograd"
-    krasnodar = "Krasnodar"
-    saratov = "Saratov"
-    tyumen = "Tyumen"
-    tolyatti = "Tolyatti"
-    izhevsk = "Izhevsk"
-    barnaul = "Barnaul"
-    ulyanovsk = "Ulyanovsk"
-    irkutsk = "Irkutsk"
-    khabarovsk = "Khabarovsk"
-    vladivostok = "Vladivostok"
-    yaroslavl = "Yaroslavl"
-    makhachkala = "Makhachkala"
-    yakutsk = "Yakutsk"
-    simferopol = "Simferopol"
-    sevastopol = "Sevastopol"
+class City(Enum):
+    moscow = ("Moscow", "Москва")
+    saint_petersburg = ("Saint Petersburg", "Санкт-Петербург")
+    novosibirsk = ("Novosibirsk", "Новосибирск")
+    yekaterinburg = ("Yekaterinburg", "Екатеринбург")
+    kazan = ("Kazan", "Казань")
+    nizhny_novgorod = ("Nizhny Novgorod", "Нижний Новгород")
+    chelyabinsk = ("Chelyabinsk", "Челябинск")
+    samara = ("Samara", "Самара")
+    ufa = ("Ufa", "Уфа")
+    krasnoyarsk = ("Krasnoyarsk", "Красноярск")
+    perm = ("Perm", "Пермь")
+    voronezh = ("Voronezh", "Воронеж")
+    volgograd = ("Volgograd", "Волгоград")
+    krasnodar = ("Krasnodar", "Краснодар")
+    saratov = ("Saratov", "Саратов")
+    tyumen = ("Tyumen", "Тюмень")
+    tolyatti = ("Tolyatti", "Тольятти")
+    izhevsk = ("Izhevsk", "Ижевск")
+    barnaul = ("Barnaul", "Барнаул")
+    ulyanovsk = ("Ulyanovsk", "Ульяновск")
+    irkutsk = ("Irkutsk", "Иркутск")
+    khabarovsk = ("Khabarovsk", "Хабаровск")
+    vladivostok = ("Vladivostok", "Владивосток")
+    yaroslavl = ("Yaroslavl", "Ярославль")
+    makhachkala = ("Makhachkala", "Махачкала")
+    yakutsk = ("Yakutsk", "Якутск")
+    simferopol = ("Simferopol", "Симферополь")
+    sevastopol = ("Sevastopol", "Севастополь")
+
+    def __init__(self, en_name, ru_name):
+        self.en_name = en_name
+        self.ru_name = ru_name
 
     @classmethod
-    def choices(cls):
-        return [e.value for e in cls]
+    def choices_ru(cls):
+        """Возвращает список городов с русским названием."""
+        return [city.value[1] for city in cls]
+
+    @classmethod
+    def get_ru_name_by_en(cls, en_name):
+        """Получает русское название города по английскому."""
+        for city in cls:
+            if city.en_name == en_name:
+                return city.ru_name
+        return None
+
+    @classmethod
+    def get_en_name_by_ru(cls, ru_name):
+        """Получает английское название города по русскому."""
+        for city in cls:
+            if city.ru_name == ru_name:
+                return city.en_name
+        return None
+
+    @classmethod
+    def is_valid_city(cls, name):
+        """Проверяет, является ли строка допустимым названием города."""
+        for city in cls:
+            if city.en_name == name or city.ru_name == name:
+                return True
+        return False
 
 
 class Translations:

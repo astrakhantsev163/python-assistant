@@ -9,6 +9,9 @@ from starlette.staticfiles import StaticFiles
 
 from config import City, settings
 from helpers.weather import Weather
+from threading import Thread
+
+from telegram_bot.telegram_bot import run_bot
 
 templates_path = Path(__file__).parent / "templates"
 styles = Path(__file__).parent / "static"
@@ -24,6 +27,13 @@ logger = logging.getLogger(__name__)
 logger.info("Приложение запущено")
 
 
+@app.on_event("startup")
+async def startup_event():
+    # Запуск Telegram-бота в отдельном потоке
+    bot_thread = Thread(target=run_bot, daemon=True)
+    bot_thread.start()
+
+
 @app.middleware("http")
 async def add_no_cache_headers(request, call_next):
     response = await call_next(request)
@@ -32,8 +42,13 @@ async def add_no_cache_headers(request, call_next):
 
 
 @app.get("/")
-async def read_root(request: Request, city_choices: City = settings.DEFAULT_CITY):
-    weather = Weather(city_choices)
+async def read_root(
+    request: Request,
+    city_choices: str = settings.DEFAULT_CITY
+):
+    # Преобразуем русское название города в объект City
+    selected_city = next((city for city in City if city.ru_name == city_choices))
+    weather = Weather(selected_city.en_name)
     day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
     weather_data = list(zip(day_of_week, time, temperature, weather_type))
     return templates.TemplateResponse(
@@ -41,26 +56,26 @@ async def read_root(request: Request, city_choices: City = settings.DEFAULT_CITY
         context={
             "request": request,
             "weather_data": weather_data,
-            "city_choices": [e.value for e in City],
-            "selected_city": city_choices.value
+            "city_choices": City.choices_ru(),  # Список всех городов
+            "selected_city": selected_city.ru_name  # Русское название выбранного города
         },
     )
 
 
 @app.get("/weather")
-async def get_weather_for_week(request: Request, city: str, response: Response):
+async def get_weather_17_hours(request: Request, city: str, response: Response):
     try:
-        response.set_cookie(key="selected_city", value=city)
-        weather = Weather(city)
+        city_en = City.get_en_name_by_ru(city)
+        response.set_cookie(key="selected_city", value=city_en)
+        weather = Weather(city_en)
         day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
         weather_data = list(zip(day_of_week, time, temperature, weather_type))
         return templates.TemplateResponse(
             "index.html",
             {
                 "request": request,
-                "city": city,
                 "weather_data": weather_data,
-                "city_choices": [e.value for e in City],
+                "city_choices": City.choices_ru(),
                 "selected_city": city
             }
         )
