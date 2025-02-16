@@ -13,9 +13,18 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: flex;
     margin: 0 auto;
     padding: 0 15px; /* Добавляем минимальные отступы */
+}
+
+button {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
 }
 
 main {

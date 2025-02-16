@@ -22,16 +22,16 @@
     <main>
         <div class="container">
             <div class="header-flex">
-                <h2>Прогноз погоды на неделю</h2>
+                <h2>Прогноз погоды на 18 часов</h2>
                 <form action="/weather" method="get">
                     <select id="city_choices" name="city">
                         {% for choice in city_choices %}
-                        <option value="{{choice}}" {% if choice == selected_city %} selected {% endif %}>
-                            {{choice}}
+                        <option value="{{ choice }}" {% if choice == selected_city %}selected{% endif %}>
+                            {{ choice }}
                         </option>
                         {% endfor %}
                     </select>
-                    <button type="submit">Получить погоду</button>
+                    <button type="submit" class="submit-button">Получить погоду</button>
                 </form>
             </div>
             <div id="weather-container" class="weather-grid">

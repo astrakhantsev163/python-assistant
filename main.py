@@ -24,6 +24,13 @@ logger = logging.getLogger(__name__)
 logger.info("Приложение запущено")
 
 
+@app.middleware("http")
+async def add_no_cache_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    return response
+
+
 @app.get("/")
 async def read_root(request: Request, city_choices: City = settings.DEFAULT_CITY):
     weather = Weather(city_choices)
