@@ -3,6 +3,7 @@ import logging
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
+from fastapi import Response
 
 from starlette.staticfiles import StaticFiles
 
@@ -40,24 +41,26 @@ async def read_root(request: Request, city_choices: City = settings.DEFAULT_CITY
 
 
 @app.get("/weather")
-async def get_weather_for_week(request: Request, city: str):
+async def get_weather_for_week(request: Request, city: str, response: Response):
     try:
+        response.set_cookie(key="selected_city", value=city)
         weather = Weather(city)
         date, temperature, humid = weather.get_weather_for_week()
+        weather_data = list(zip(date, temperature, humid))
         return templates.TemplateResponse(
             "index.html",
             {
                 "request": request,
                 "city": city,
-                "date": date,
-                "temperature": temperature,
-                "humid": humid
+                "weather_data": weather_data,
+                "city_choices": [e.value for e in City],
+                "selected_city": city
             }
         )
-    except Exception as e:
+    except ValueError as e:
         return templates.TemplateResponse(
             "error.html",
-            {"request": request, "message": f"Ошибка: {str(e)}"}
+            {"request": request, "message": str(e)}
         )
 
 

@@ -9,7 +9,7 @@ load_dotenv()
 class Settings(BaseSettings):
     API_KEY: str = os.getenv("API_KEY")
     FORECAST_URL: str = "http://api.openweathermap.org/data/2.5/forecast"
-    DEFAULT_CITY: str = "Saint Petersburg"
+    DEFAULT_CITY: str = os.getenv("DEFAULT_CITY")
 
     class Config:
         env_file = ".env"

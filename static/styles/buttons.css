@@ -1,0 +1,6 @@
+button[type="submit"] {
+    background: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+}

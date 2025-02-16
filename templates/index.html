@@ -6,9 +6,9 @@
     <title>Python Assistant</title>
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/styles/base.css">
+    <link rel="stylesheet" href="/static/styles/buttons.css">
     <link rel="stylesheet" href="/static/styles/header.css">
     <link rel="stylesheet" href="/static/styles/weather_cards.css">
-    <link rel="stylesheet" href="/static/styles/buttons.css">
     <link rel="stylesheet" href="/static/styles/footer.css">
 </head>
 <body>
@@ -35,7 +35,7 @@
                 </form>
             </div>
             <div id="weather-container" class="weather-grid">
-                {% for d, t, h in date|zip(temperature)|zip(humid) %}
+                {% for d, t, h in weather_data %}
                 <div class="weather-card">
                     <h3>{{ d }}</h3>
                     <p>Температура: {{ t }}°C</p>
@@ -51,8 +51,5 @@
             <p>&copy; 2025 Python Assistant. Все права защищены.</p>
         </div>
     </footer>
-
-    <!-- Подключение JavaScript -->
-    <script src="/static/mock.js"></script>
 </body>
 </html>
