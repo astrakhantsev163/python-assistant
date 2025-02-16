@@ -13,16 +13,18 @@
     <link rel="stylesheet" href="/static/styles/weather_cards.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Python Assistant</h1>
-            <p>Ваш персональный помощник</p>
-        </div>
-    </header>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Python Assistant</h1>
+                <p>Ваш персональный помощник</p>
+            </div>
+        </header>
+
         <main>
-            <div class="container">
+            <div class="main-content">
                 <div class="header-flex">
-                    <h2>Прогноз погоды на неделю</h2>
+                    <h2>Прогноз погоды на 17 часов</h2>
                     <form action="/weather" method="get">
                         <select id="city_choices" name="city">
                             {% for choice in city_choices %}
@@ -31,25 +33,27 @@
                             </option>
                             {% endfor %}
                         </select>
-                        <button type="submit">Получить погоду</button>
+                        <button type="submit" class="submit-button">Получить погоду</button>
                     </form>
                 </div>
                 <div id="weather-container" class="weather-grid">
-                    {% for d, t, h in weather_data %}
+                    {% for day, time, temp, type in weather_data %}
                     <div class="weather-card">
-                        <h3>{{ d }}</h3>
-                        <p>Температура: {{ t }}°C</p>
-                        <p>Влажность: {{ h }}%</p>
+                        <h3>{{ day }}</h3>
+                        <p>Время: {{ time }}</p>
+                        <p>Температура: {{ temp }}°C</p>
+                        <p>Погода: {{ type }}</p>
                     </div>
                     {% endfor %}
                 </div>
             </div>
         </main>
-            <footer>
-                <div class="container">
-                    <p>&copy; 2025 Python Assistant. Все права защищены.</p>
-                </div>
-            </footer>
-        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 Python Assistant. Все права защищены.</p>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>

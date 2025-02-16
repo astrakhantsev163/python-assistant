@@ -34,8 +34,8 @@ async def add_no_cache_headers(request, call_next):
 @app.get("/")
 async def read_root(request: Request, city_choices: City = settings.DEFAULT_CITY):
     weather = Weather(city_choices)
-    date, temperature, humid = weather.get_weather_for_week()
-    weather_data = list(zip(date, temperature, humid))
+    day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
+    weather_data = list(zip(day_of_week, time, temperature, weather_type))
     return templates.TemplateResponse(
         "index.html",
         context={
@@ -52,8 +52,8 @@ async def get_weather_for_week(request: Request, city: str, response: Response):
     try:
         response.set_cookie(key="selected_city", value=city)
         weather = Weather(city)
-        date, temperature, humid = weather.get_weather_for_week()
-        weather_data = list(zip(date, temperature, humid))
+        day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
+        weather_data = list(zip(day_of_week, time, temperature, weather_type))
         return templates.TemplateResponse(
             "index.html",
             {
@@ -65,10 +65,7 @@ async def get_weather_for_week(request: Request, city: str, response: Response):
             }
         )
     except ValueError as e:
-        return templates.TemplateResponse(
-            "error.html",
-            {"request": request, "message": str(e)}
-        )
+        print(f"{e}")
 
 
 if __name__ == "__main__":
