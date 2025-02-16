@@ -1,7 +1,8 @@
 import logging
 
 import telebot
-from config import settings, Translations, City
+
+from config import City, settings
 from helpers.weather import Weather
 
 bot = telebot.TeleBot(settings.BOT_TOKEN)
@@ -18,10 +19,11 @@ def send_welcome(message):
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(telebot.types.KeyboardButton("Показать погоду"))
     welcome_message = (
-        "Привет! Меня зовут: Personal Assistant!\n\n"
+        "Привет! Я — ваш личный ассистент!\n\n"
         "Я буду вам помогать в ваших делах!\n"
         "Пока что я только умею показывать вам ближайшую погоду, но в будущем я буду много чего уметь :)\n\n"
-        "Ниже, у меня есть кнопка, по которой я покажу вам погоду - тыкайте, не стесняйтесь."
+        "Ниже, у меня есть кнопка, по которой я покажу вам погоду - тыкайте, не стесняйтесь.\n\n"
+        "Можно мной полюбоваться тут: https://python-assistant.onrender.com/"
     )
     bot.send_message(message.chat.id, welcome_message, reply_markup=markup)
 
@@ -33,11 +35,7 @@ def choose_city(message):
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     city_buttons = [telebot.types.KeyboardButton(city) for city in City.choices_ru()]
     markup.add(*city_buttons)
-    bot.send_message(
-        message.chat.id,
-        "Выберите город из списка:",
-        reply_markup=markup
-    )
+    bot.send_message(message.chat.id, "Выберите город из списка:", reply_markup=markup)
 
 
 # Обработчик выбора города
@@ -47,7 +45,12 @@ def get_weather(message):
     try:
         city_en = City.get_en_name_by_ru(city)
         weather = Weather(city_en)
-        day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
+        (
+            day_of_week,
+            time,
+            temperature,
+            weather_type,
+        ) = weather.get_weather_for_17_hours()
         weather_data = list(zip(day_of_week, time, temperature, weather_type))
         message_with_weather = "\n".join(
             [
@@ -58,7 +61,9 @@ def get_weather(message):
         bot.send_message(message.chat.id, message_with_weather)
         logger.info(f"Бот отправил прогноз погоды. {city}")
     except Exception:
-        bot.send_message(message.chat.id, "Не удалось получить данные о погоде. Попробуйте позже.")
+        bot.send_message(
+            message.chat.id, "Не удалось получить данные о погоде. Попробуйте позже."
+        )
         logger.error(f"Бот не смог отправить погоду: {Exception}")
     finally:
         markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
