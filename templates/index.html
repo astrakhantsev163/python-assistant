@@ -22,7 +22,7 @@
     <main>
         <div class="container">
             <div class="header-flex">
-                <h2>Прогноз погоды на неделю:</h2>
+                <h2>Прогноз погоды на неделю</h2>
                 <select id="city_choices" name="city_choices">
                     {% for choice in city_choices %}
                     <option value="{{choice}}" {% if choice == selected_city %} selected {% endif %}>
@@ -33,7 +33,6 @@
             </div>
             <div id="weather-container" class="weather-grid">
                 <div class="container">
-
             </div>
         </div>
     </main>

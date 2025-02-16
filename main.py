@@ -14,7 +14,6 @@ styles = Path(__file__).parent / "static"
 templates = Jinja2Templates(directory=f"{templates_path}")
 
 app = FastAPI()
-weather = Weather()
 
 app.mount(
     "/static",
@@ -25,17 +24,35 @@ app.mount(
 
 @app.get("/")
 async def read_root(request: Request, city_choices: City = City.saint_petersburg):
-    # date, temperature, humid = weather.get_weather_for_week()
+    weather = Weather(city_choices)
+    date, temperature, humid = weather.get_weather_for_week()
     return templates.TemplateResponse(
         "index.html",
         context={
             "request": request,
-            # "date": date,
-            # "temperature": temperature,
-            # "humid": humid,
+            "date": date,
+            "temperature": temperature,
+            "humid": humid,
             "city_choices": [e.value for e in City],
             "selected_city": city_choices.value
         },
+    )
+
+
+@app.get("/weather")
+async def get_weather_for_week(request: Request, city: str):
+    weather = Weather(city)
+    date, temperature, humid = weather.get_weather_for_week()
+    # Передача данных в шаблон
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "city": city,
+            "date": date,
+            "temperature": temperature,
+            "humid": humid
+        }
     )
 
 
