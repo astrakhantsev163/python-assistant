@@ -1,3 +1,5 @@
+from threading import Thread
+
 import uvicorn
 import logging
 from fastapi import FastAPI, Request
@@ -9,7 +11,6 @@ from starlette.staticfiles import StaticFiles
 
 from config import City, settings
 from helpers.weather import Weather
-from threading import Thread
 
 from telegram_bot.telegram_bot import TelegramBot
 
@@ -30,12 +31,13 @@ logger.info("Приложение запущено")
 
 @app.on_event("startup")
 async def startup_bot():
-    telegram_bot.run_bot()
+    bot_thread = Thread(target=telegram_bot.run_bot, daemon=True)
+    bot_thread.start()
 
 
 @app.on_event("shutdown")
 async def shutdown_bot():
-    telegram_bot.run_bot()
+    telegram_bot.stop_bot()
     logger.info("Телеграм бот завершил работу")
 
 
