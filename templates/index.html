@@ -26,6 +26,11 @@
         <main>
             <div class="main-content">
                 <div class="header-flex">
+                    <h2>Курс валют на {{today}}</h2>
+                    <h3>Курс Доллара: {{ usd }} </h3>
+                    <h3>Курс Евро: {{ eur }} </h3>
+                </div>
+                <div class="header-flex">
                     <h2>Прогноз погоды на 21 час</h2>
                     <h3>Выберите город </h3>
                     <form action="/weather" method="get">
@@ -48,11 +53,6 @@
                         <p>Погода: {{ type }}</p>
                     </div>
                     {% endfor %}
-                </div>
-                <div class="header-flex">
-                    <h2>Курс валют на {{ today }}</h2>
-                    <h3>Курс Доллара: {{ usd }} </h3>
-                    <h3>Курс Евро: {{ eur }} </h3>
                 </div>
             </div>
         </main>
