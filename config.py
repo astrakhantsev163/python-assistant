@@ -64,7 +64,7 @@ class City(Enum):
 
     @classmethod
     def get_ru_name_by_en(cls, en_name):
-        """Получает русское название города по английскому."""
+        """Получает русское название города по-английски."""
         for city in cls:
             if city.en_name == en_name:
                 return city.ru_name
@@ -72,19 +72,11 @@ class City(Enum):
 
     @classmethod
     def get_en_name_by_ru(cls, ru_name):
-        """Получает английское название города по русскому."""
+        """Получает английское название города по-русски."""
         for city in cls:
             if city.ru_name == ru_name:
                 return city.en_name
         return None
-
-    @classmethod
-    def is_valid_city(cls, name):
-        """Проверяет, является ли строка допустимым названием города."""
-        for city in cls:
-            if city.en_name == name or city.ru_name == name:
-                return True
-        return False
 
 
 class Translations:

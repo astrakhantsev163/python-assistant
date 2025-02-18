@@ -1,3 +1,4 @@
+from datetime import date
 from threading import Thread
 
 import uvicorn
@@ -10,6 +11,7 @@ from fastapi import Response
 from starlette.staticfiles import StaticFiles
 
 from config import City, settings
+from helpers.news import News
 from helpers.weather import Weather
 
 from telegram_bot.telegram_bot import TelegramBot
@@ -58,10 +60,16 @@ async def read_root(
     weather = Weather(selected_city.en_name)
     day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
     weather_data = list(zip(day_of_week, time, temperature, weather_type))
+    news = News()
+    currency_data = news.get_currency_rates(["USD", "EUR"])
+    today = date.today().strftime("%d.%m.%Y")
     return templates.TemplateResponse(
         "index.html",
         context={
             "request": request,
+            "today": today,
+            "usd": round(float(currency_data["USD"]), 2),
+            "eur": round(float(currency_data["EUR"]), 2),
             "weather_data": weather_data,
             "city_choices": City.choices_ru(),  # Список всех городов
             "selected_city": selected_city.ru_name  # Русское название выбранного города

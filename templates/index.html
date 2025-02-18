@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/static/styles/footer.css">
     <link rel="stylesheet" href="/static/styles/buttons.css">
     <link rel="stylesheet" href="/static/styles/weather_cards.css">
+    <link rel="stylesheet" href="/static/styles/news.css">
+
 </head>
 <body>
     <div class="container">
@@ -46,6 +48,11 @@
                         <p>Погода: {{ type }}</p>
                     </div>
                     {% endfor %}
+                </div>
+                <div class="header-flex">
+                    <h2>Курс валют на {{ today }}</h2>
+                    <h3>Курс Доллара: {{ usd }} </h3>
+                    <h3>Курс Евро: {{ eur }} </h3>
                 </div>
             </div>
         </main>

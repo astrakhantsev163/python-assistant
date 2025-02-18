@@ -36,7 +36,6 @@ class TelegramBot:
     @staticmethod
     def create_back_to_main_markup():
         markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-        markup.add(telebot.types.KeyboardButton("Показать погоду"))
         markup.add(telebot.types.KeyboardButton("Главная страница"))
         return markup
 
@@ -126,8 +125,8 @@ class TelegramBot:
             self.logger.info(f"У бота запросили новости - {user_name}")
             exchange_rate = self.news.get_currency_rates(["USD", "EUR"])
             message_with_news = (
-                f"Курс доллара -> {exchange_rate['USD']}\n"
-                f"Курс евро -> {exchange_rate['EUR']}\n"
+                f"Курс доллара -> {round(float(exchange_rate['USD']), 2)} рублей.\n"
+                f"Курс евро -> {round(float(exchange_rate['EUR']), 2)} рублей.\n"
             )
             markup = self.create_back_to_main_markup()
             self.bot.send_message(
@@ -140,7 +139,7 @@ class TelegramBot:
             self.logger.info(f"Боту дали команду /stop - {user_name}")
             welcome_message = (
                 f"{user_name}, надеюсь я был вам полезен!\n"
-                "Если я вам снова понадоблюсь, то отправьте мне команду: /start"
+                "Если я вам снова понадоблюсь, то отправьте мне команду: /start\n\n"
                 "До свидания!"
             )
             self.bot.send_message(
