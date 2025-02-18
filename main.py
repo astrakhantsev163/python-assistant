@@ -55,6 +55,8 @@ async def read_root(
     request: Request,
     city_choices: str = settings.DEFAULT_CITY
 ):
+    form_data = await request.form()
+    print(form_data)
     selected_city = next((city for city in City if city.ru_name == city_choices))
     weather = Weather(selected_city.en_name)
     day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
@@ -77,8 +79,8 @@ async def read_root(
             "usd": usd,
             "eur": eur,
             "weather_data": weather_data,
-            "city_choices": City.choices_ru(),  # Список всех городов
-            "selected_city": selected_city.ru_name  # Русское название выбранного города
+            "city_choices": City.choices_ru(),
+            "selected_city": selected_city.ru_name
         },
     )
 
@@ -91,10 +93,23 @@ async def get_weather_17_hours(request: Request, city: str, response: Response):
         weather = Weather(city_en)
         day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
         weather_data = list(zip(day_of_week, time, temperature, weather_type))
+        news = News()
+        usd = "Нет данных"
+        eur = "Нет данных"
+        try:
+            currency_data = news.get_currency_rates(["USD", "EUR"])
+            usd = round(float(currency_data["USD"]), 2)
+            eur = round(float(currency_data["EUR"]), 2)
+        except Exception as e:
+            logger.error(f"Ошибка при получении валют. Причина: {e}")
+        today = date.today().strftime("%d.%m.%Y")
         return templates.TemplateResponse(
             "index.html",
             {
                 "request": request,
+                "today": today,
+                "usd": usd,
+                "eur": eur,
                 "weather_data": weather_data,
                 "city_choices": City.choices_ru(),
                 "selected_city": city
