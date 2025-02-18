@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     FORECAST_URL: str = "http://api.openweathermap.org/data/2.5/forecast"
     DEFAULT_CITY: str = os.getenv("DEFAULT_CITY")
     BOT_TOKEN: str = os.getenv("BOT_TOKEN")
+    USD_TOKEN: str = os.getenv("USD_TOKEN")
 
     class Config:
         env_file = ".env"
@@ -103,34 +104,4 @@ class Translations:
         "Ash": "Пепел",
         "Squall": "Шквал",
         "Tornado": "Торнадо"
-    }
-    city_translations = {
-        "Moscow": "Москва",
-        "Saint Petersburg": "Санкт-Петербург",
-        "Novosibirsk": "Новосибирск",
-        "Yekaterinburg": "Екатеринбург",
-        "Kazan": "Казань",
-        "Nizhny Novgorod": "Нижний Новгород",
-        "Chelyabinsk": "Челябинск",
-        "Samara": "Самара",
-        "Ufa": "Уфа",
-        "Krasnoyarsk": "Красноярск",
-        "Perm": "Пермь",
-        "Voronezh": "Воронеж",
-        "Volgograd": "Волгоград",
-        "Krasnodar": "Краснодар",
-        "Saratov": "Саратов",
-        "Tyumen": "Тюмень",
-        "Tolyatti": "Тольятти",
-        "Izhevsk": "Ижевск",
-        "Barnaul": "Барнаул",
-        "Ulyanovsk": "Ульяновск",
-        "Irkutsk": "Иркутск",
-        "Khabarovsk": "Хабаровск",
-        "Vladivostok": "Владивосток",
-        "Yaroslavl": "Ярославль",
-        "Makhachkala": "Махачкала",
-        "Yakutsk": "Якутск",
-        "Simferopol": "Симферополь",
-        "Sevastopol": "Севастополь"
     }

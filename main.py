@@ -11,12 +11,13 @@ from config import City, settings
 from helpers.weather import Weather
 from threading import Thread
 
-from telegram_bot.telegram_bot import run_bot
+from telegram_bot.telegram_bot import TelegramBot
 
 templates_path = Path(__file__).parent / "templates"
 styles = Path(__file__).parent / "static"
 
 app = FastAPI()
+telegram_bot = TelegramBot()
 templates = Jinja2Templates(directory=templates_path.resolve())
 app.mount("/static", StaticFiles(directory=styles.resolve()), name="static")
 
@@ -28,10 +29,14 @@ logger.info("Приложение запущено")
 
 
 @app.on_event("startup")
-async def startup_event():
-    # Запуск Telegram-бота в отдельном потоке
-    bot_thread = Thread(target=run_bot, daemon=True)
-    bot_thread.start()
+async def startup_bot():
+    telegram_bot.run_bot()
+
+
+@app.on_event("shutdown")
+async def shutdown_bot():
+    telegram_bot.run_bot()
+    logger.info("Телеграм бот завершил работу")
 
 
 @app.middleware("http")
