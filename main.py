@@ -55,8 +55,6 @@ async def read_root(
     request: Request,
     city_choices: str = settings.DEFAULT_CITY
 ):
-    form_data = await request.form()
-    print(form_data)
     selected_city = next((city for city in City if city.ru_name == city_choices))
     weather = Weather(selected_city.en_name)
     day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
