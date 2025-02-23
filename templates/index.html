@@ -12,17 +12,24 @@
     <link rel="stylesheet" href="/static/styles/buttons.css">
     <link rel="stylesheet" href="/static/styles/weather_cards.css">
     <link rel="stylesheet" href="/static/styles/news.css">
-
+    <link rel="stylesheet" href="/static/styles/burger_menu.css">
 </head>
 <body>
     <div class="container">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">&#9776;</label>
+        <nav class="menu">
+            <ul>
+                <li><a href="/doctors">Избранные доктора</a></li>
+            </ul>
+        </nav>
+
         <header>
             <div class="header-content">
                 <h1>Personal Assistant</h1>
                 <p class="p-header">Ваш персональный помощник</p>
             </div>
         </header>
-
         <main>
             <div class="main-content">
                 <div class="header-flex">
@@ -56,7 +63,6 @@
                 </div>
             </div>
         </main>
-
         <footer>
             <div class="footer-content">
                 <p>&copy; 2025 Personal Assistant. Все права защищены.</p>

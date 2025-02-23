@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Assistant</title>
+    <link rel="icon" href="static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/styles/base.css">
+    <link rel="stylesheet" href="/static/styles/header.css">
+    <link rel="stylesheet" href="/static/styles/main.css">
+    <link rel="stylesheet" href="/static/styles/footer.css">
+    <link rel="stylesheet" href="/static/styles/buttons.css">
+    <link rel="stylesheet" href="/static/styles/weather_cards.css">
+    <link rel="stylesheet" href="/static/styles/burger_menu.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Бургер-меню -->
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">&#9776;</label>
+        <nav class="menu">
+            <ul>
+                <li><a href="/">Главная страница</a></li>
+            </ul>
+        </nav>
+
+        <!-- Остальная часть страницы -->
+        <header>
+            <div class="header-content">
+                <h1>Избранные доктора</h1>
+            </div>
+        </header>
+        <main>
+            <div class="main-content">
+                <div id="weather-container" class="weather-grid">
+                    {% for name, spec, price, address in doctors %}
+                    <div class="weather-card">
+                        <h2>{{ doctors_data }}</h2>
+                        <h3>{{ name }}</h3>
+                        <p>Специализация: {{ spec }}</p>
+                        <p>Цена приема: {{ price }}</p>
+                        <p>Адрес: {{ address }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 Personal Assistant. Все права защищены.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

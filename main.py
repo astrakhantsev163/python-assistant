@@ -3,7 +3,7 @@ from threading import Thread
 
 import uvicorn
 import logging
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from fastapi import Response
@@ -13,6 +13,7 @@ from starlette.staticfiles import StaticFiles
 from config import City, settings
 from helpers.news import News
 from helpers.weather import Weather
+from routers import doctors
 
 from telegram_bot.telegram_bot import TelegramBot
 
@@ -29,6 +30,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 logger.info("Приложение запущено")
+
+app.include_router(doctors.router)
 
 
 @app.on_event("startup")
@@ -57,7 +60,7 @@ async def read_root(
 ):
     selected_city = next((city for city in City if city.ru_name == city_choices))
     weather = Weather(selected_city.en_name)
-    day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
+    day_of_week, time, temperature, weather_type = weather.get_weather_for_21_hours()
     weather_data = list(zip(day_of_week, time, temperature, weather_type))
     news = News()
     usd = "Нет данных"
@@ -84,12 +87,12 @@ async def read_root(
 
 
 @app.get("/weather")
-async def get_weather_17_hours(request: Request, city: str, response: Response):
+async def get_weather_21_hours(request: Request, city: str, response: Response):
     try:
         city_en = City.get_en_name_by_ru(city)
         response.set_cookie(key="selected_city", value=city_en)
         weather = Weather(city_en)
-        day_of_week, time, temperature, weather_type = weather.get_weather_for_17_hours()
+        day_of_week, time, temperature, weather_type = weather.get_weather_for_21_hours()
         weather_data = list(zip(day_of_week, time, temperature, weather_type))
         news = News()
         usd = "Нет данных"

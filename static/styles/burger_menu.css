@@ -1,0 +1,54 @@
+/* Базовые стили для бургер-меню */
+.menu-toggle {
+    display: none; /* Чекбокс скрыт */
+}
+
+.menu-icon {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 24px;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    color: #333;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: -55%; /* Меню изначально за пределами видимости */
+    width: 55%; /* Ширина меню = 1/4 страницы */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: left 0.3s ease; /* Плавная анимация */
+    z-index: 999;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    margin: 20px 0;
+}
+
+.menu a {
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.menu a:hover {
+    color: #007bff;
+}
+
+/* Открытие меню при активации чекбокса */
+.menu-toggle:checked + .menu-icon + .menu {
+    left: 0; /* Меню перемещается в видимую область */
+}

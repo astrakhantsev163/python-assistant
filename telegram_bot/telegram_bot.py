@@ -76,7 +76,7 @@ class TelegramBot:
                     time,
                     temperature,
                     weather_type,
-                ) = weather.get_weather_for_17_hours()
+                ) = weather.get_weather_for_21_hours()
                 weather_data = list(zip(day_of_week, time, temperature, weather_type))
                 message_with_weather = "\n".join(
                     [

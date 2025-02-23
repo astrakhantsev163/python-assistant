@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from enum import Enum
+from enum import Enum, StrEnum
 from pydantic_settings import BaseSettings
 
 load_dotenv()
@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     DEFAULT_CITY: str = os.getenv("DEFAULT_CITY")
     BOT_TOKEN: str = os.getenv("BOT_TOKEN")
     USD_TOKEN: str = os.getenv("USD_TOKEN")
+    POSTGRES_USER: str = os.getenv("POSTGRES_USER")
+    POSTGRES_PASS: str = os.getenv("POSTGRES_PASS")
 
     class Config:
         env_file = ".env"
@@ -21,6 +23,10 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+class Postgres(StrEnum):
+    DATABASE_URL = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASS}@localhost/personal_assistant"
 
 
 class City(Enum):
