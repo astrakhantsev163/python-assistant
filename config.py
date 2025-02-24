@@ -1,7 +1,11 @@
 import os
+import logging
 from dotenv import load_dotenv
 from enum import Enum, StrEnum
 from pydantic_settings import BaseSettings
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 

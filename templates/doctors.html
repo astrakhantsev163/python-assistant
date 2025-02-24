@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="/static/styles/buttons.css">
     <link rel="stylesheet" href="/static/styles/weather_cards.css">
     <link rel="stylesheet" href="/static/styles/burger_menu.css">
+    <link rel="stylesheet" href="/static/styles/modal_doctors.css">
 </head>
 <body>
     <div class="container">
-        <!-- Бургер-меню -->
         <input type="checkbox" id="menu-toggle" class="menu-toggle">
         <label for="menu-toggle" class="menu-icon">&#9776;</label>
         <nav class="menu">
@@ -23,8 +23,6 @@
                 <li><a href="/">Главная страница</a></li>
             </ul>
         </nav>
-
-        <!-- Остальная часть страницы -->
         <header>
             <div class="header-content">
                 <h1>Избранные доктора</h1>
@@ -32,11 +30,84 @@
         </header>
         <main>
             <div class="main-content">
+                <button id="add-doctor" class="submit-button">Добавить доктора</button>
+                <div id="modal-doctor" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Добавить нового доктора</h2>
+                        <form action="/doctors/add-doctor" method="post">
+
+                            <label for="full_name">Имя: *</label>
+                            <input type="text" id="full_name" name="full_name" required>
+
+                            <label for="specialization">Специализация: *</label>
+                            <input type="text" id="specialization" name="specialization" required>
+
+                            <label for="price">Цена приема: *</label>
+                            <input type="text" id="price" name="price" required>
+
+                            <label for="address">Адрес: *</label>
+                            <input type="text" id="address" name="address" required>
+
+                            <button type="submit" class="submit-button">Добавить</button>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                var modal = document.getElementById("modal-doctor");
+                var btn = document.getElementById("add-doctor");
+                var span = document.getElementsByClassName("close")[0];
+                var form = document.getElementById("doctor-form");
+
+                btn.onclick = function() {
+                  modal.style.display = "block";
+                }
+
+                span.onclick = function() {
+                  modal.style.display = "none";
+                }
+
+                window.onclick = function(event) {
+                  if (event.target == modal) {
+                    modal.style.display = "none";
+                  }
+                }
+
+                form.onsubmit = function(event) {
+                  event.preventDefault(); // Prevent the default form submission
+
+                  var formData = new FormData(form);
+                  var data = {
+                    full_name: formData.get('full_name'),
+                    specialization: formData.get('specialization'),
+                    price: formData.get('price'),
+                    address: formData.get('address')
+                  };
+
+                  fetch('/add_doctor', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log('Success:', data);
+                    modal.style.display = "none";
+                    location.reload(); // Reload the page to update the list of doctors
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
+                }
+                </script>
+
                 <div id="weather-container" class="weather-grid">
-                    {% for name, spec, price, address in doctors %}
+                    {% for full_name, spec, price, address in doctors %}
                     <div class="weather-card">
-                        <h2>{{ doctors_data }}</h2>
-                        <h3>{{ name }}</h3>
+                        <h3>{{ full_name }}</h3>
                         <p>Специализация: {{ spec }}</p>
                         <p>Цена приема: {{ price }}</p>
                         <p>Адрес: {{ address }}</p>
