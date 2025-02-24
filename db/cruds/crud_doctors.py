@@ -8,8 +8,8 @@ def create_doctor(db: Session, doctor: schema_doctors.DoctorCreate):
     db_doctor = models_doctors.Doctor(
         full_name=doctor.full_name,
         specialization=doctor.specialization,
-        address=doctor.address,
         price=doctor.price,
+        address=doctor.address,
     )
     db.add(db_doctor)
     db.commit()

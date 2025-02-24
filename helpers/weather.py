@@ -20,7 +20,7 @@ class Weather:
     @lru_cache(maxsize=10)
     def get_weather_for_21_hours(self) -> tuple:
         """
-        Получает погоду за 17 часов
+        Получает погоду за 21 час
         :return: Кортеж с днем недели, временем, температурой, типом погоды
         """
         response = requests.get(f"{self.forecast_url}&cnt=7")
