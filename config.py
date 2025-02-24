@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     USD_TOKEN: str = os.getenv("USD_TOKEN")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER")
     POSTGRES_PASS: str = os.getenv("POSTGRES_PASS")
+    DB_HOST: str = os.getenv("DB_HOST")
+    DB_NAME: str = os.getenv("DB_NAME")
 
     class Config:
         env_file = ".env"
@@ -30,7 +32,7 @@ settings = Settings()
 
 
 class Postgres(StrEnum):
-    DATABASE_URL = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASS}@localhost/personal_assistant"
+    DATABASE_URL = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASS}@{settings.DB_HOST}:5432/{settings.DB_NAME}"
 
 
 class City(Enum):

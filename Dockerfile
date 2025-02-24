@@ -12,6 +12,7 @@ WORKDIR /
 
 # Шаг 4: Копируем requirements.txt и устанавливаем зависимости
 COPY requirements.txt .
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Шаг 5: Копируем остальные файлы проекта
