@@ -53,60 +53,22 @@
                         </form>
                     </div>
                 </div>
-
-                <script>
-                var modal = document.getElementById("modal-doctor");
-                var btn = document.getElementById("add-doctor");
-                var span = document.getElementsByClassName("close")[0];
-                var form = document.getElementById("doctor-form");
-
-                btn.onclick = function() {
-                  modal.style.display = "block";
-                }
-
-                span.onclick = function() {
-                  modal.style.display = "none";
-                }
-
-                window.onclick = function(event) {
-                  if (event.target == modal) {
-                    modal.style.display = "none";
-                  }
-                }
-
-                form.onsubmit = function(event) {
-                  event.preventDefault(); // Prevent the default form submission
-
-                  var formData = new FormData(form);
-                  var data = {
-                    full_name: formData.get('full_name'),
-                    specialization: formData.get('specialization'),
-                    price: formData.get('price'),
-                    address: formData.get('address')
-                  };
-
-                  fetch('/add_doctor', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                  })
-                  .then(response => response.json())
-                  .then(data => {
-                    console.log('Success:', data);
-                    modal.style.display = "none";
-                    location.reload(); // Reload the page to update the list of doctors
-                  })
-                  .catch((error) => {
-                    console.error('Error:', error);
-                  });
-                }
-                </script>
-
                 <div id="weather-container" class="weather-grid">
-                    {% for full_name, spec, price, address in doctors %}
+                    {% for doctor_id, full_name, spec, price, address in doctors %}
                     <div class="weather-card">
+                        <button class="close-btn">×</button>
+                        <div id="delete-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <p>Точно удалить?</p>
+                                <div class="modal-buttons">
+                                    <form action="/doctors/delete-doctor" method="post">
+                                        <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
+                                        <button type="submit" class="delete-btn">Удалить</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <h3>{{ full_name }}</h3>
                         <p>Специализация: {{ spec }}</p>
                         <p>Цена приема: {{ price }}</p>
@@ -122,5 +84,6 @@
             </div>
         </footer>
     </div>
+   <script src="/static/javascript/modal_doctors.js"></script>
 </body>
 </html>

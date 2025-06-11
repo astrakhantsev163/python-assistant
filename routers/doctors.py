@@ -36,5 +36,15 @@ async def add_doctor(
         full_name=full_name, specialization=specialization, price=price, address=address
     )
     crud_doctors.create_doctor(db=db, doctor=doctor)
-    doctors_data = {"doctors_data": crud_doctors.get_doctors(db)}
-    return doctors_data
+    return {"request": request}
+
+
+@router.post("/delete-doctor")
+@render_doctors("doctors.html")
+async def delete_doctor(
+    request: Request,
+    db: Session = Depends(get_postgres),
+    doctor_id: str = Form(...),
+):
+    crud_doctors.delete_doctor(db=db, doctor_id=doctor_id)
+    return {"request": request}

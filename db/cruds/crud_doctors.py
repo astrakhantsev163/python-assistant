@@ -22,17 +22,20 @@ def get_doctors(db: Session, skip: int = 0, limit: int = 100):
     doctors_list = []
     for doctor in doctors:
         doctors_dict = {key: value for key, value in doctor.__dict__.items()}
+        print(doctors_dict)
         doctors_list.append(doctors_dict)
+    doctor_id = []
     full_name = []
     specialization = []
     price = []
     address = []
     for doctor_data in doctors_list:
+        doctor_id.append(doctor_data["id"])
         full_name.append(doctor_data.get("full_name") or "Не заполнено")
         specialization.append(doctor_data.get("specialization") or "Не заполнено")
         price.append(doctor_data.get("price") or "Не заполнено")
         address.append(doctor_data.get("address") or "Не заполнено")
-    return full_name, specialization, price, address
+    return doctor_id, full_name, specialization, price, address
 
 
 def get_doctor_by_id(db: Session, doctor_id: str):

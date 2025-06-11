@@ -6,7 +6,7 @@ from pathlib import Path
 from starlette.staticfiles import StaticFiles
 from config import City, settings
 from helpers.weather import Weather
-from routers import doctors
+# from routers import doctors
 from telegram_bot.telegram_bot import TelegramBot
 from utils.decorators import render_main_template
 
@@ -20,7 +20,7 @@ app.mount("/static", StaticFiles(directory=styles.resolve()), name="static")
 
 logger.info("Приложение запущено")
 
-app.include_router(doctors.router)
+# app.include_router(doctors.router)
 
 
 # Middleware для отключения кэширования

@@ -76,10 +76,16 @@ def render_doctors(
                     "Функция должна возвращать словарь с данными для контекста."
                 )
             db: Session = next(get_postgres())
-            full_name, specialization, price, address = crud_doctors.get_doctors(
-                db, skip=skip, limit=limit
+            (
+                doctor_id,
+                full_name,
+                specialization,
+                price,
+                address,
+            ) = crud_doctors.get_doctors(db, skip=skip, limit=limit)
+            doctors_data = list(
+                zip(doctor_id, full_name, specialization, price, address)
             )
-            doctors_data = list(zip(full_name, specialization, price, address))
             context = {
                 "request": request,
                 "doctors": doctors_data,
